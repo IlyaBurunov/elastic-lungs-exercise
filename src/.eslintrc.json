@@ -1,0 +1,22 @@
+{
+  "extends": ["react-app"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "flowtype",
+    "import",
+    "jsx-a11y",
+    "prettier",
+    "react",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "quotes": ["error", "single"],
+    "react/jsx-key": 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react/require-render-return": 0,
+    "no-console": "warn",
+    "newline-before-return": 2,
+    "no-duplicate-imports": 2
+  }
+}
