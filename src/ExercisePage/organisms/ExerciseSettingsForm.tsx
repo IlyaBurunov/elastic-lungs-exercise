@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import dayjs from 'dayjs';
-import mapValues from 'lodash/mapValues';
 
 // @todo change on react-hook-form
 import { Form, Field } from 'react-final-form';
@@ -25,27 +24,22 @@ export const ExerciseSettingsForm = memo<Props>(({ initialValues, onSubmit }: Pr
     {
       name: InhaleTime,
       label: 'Inhale time',
-      type: 'number',
     },
     {
       name: InhaleBreathHoldingTime,
       label: 'Inhale breath holding time',
-      type: 'number',
     },
     {
       name: ExhaleTime,
       label: 'Exhale time',
-      type: 'number',
     },
     {
       name: ExhaleBreathHoldingTime,
       label: 'Exhale breath holding time (optionaly)',
-      type: 'number',
     },
     {
       name: LapsCount,
       label: 'Laps count',
-      type: 'number',
     },
   ];
 
@@ -57,15 +51,13 @@ export const ExerciseSettingsForm = memo<Props>(({ initialValues, onSubmit }: Pr
 
       <Form initialValues={initialValues} onSubmit={onSubmit}>
         {({ handleSubmit, submitting, values }) => {
-          const formValues = mapValues(values, Number);
-
           const totalTime = dayjs(
             new Date(
-              (formValues[InhaleTime] +
-                formValues[InhaleBreathHoldingTime] +
-                formValues[ExhaleTime] +
-                formValues[ExhaleBreathHoldingTime]) *
-                formValues[LapsCount] *
+              (values[InhaleTime] +
+                values[InhaleBreathHoldingTime] +
+                values[ExhaleTime] +
+                values[ExhaleBreathHoldingTime]) *
+                values[LapsCount] *
                 1000
             )
           ).format('mm:ss');
@@ -74,12 +66,18 @@ export const ExerciseSettingsForm = memo<Props>(({ initialValues, onSubmit }: Pr
             <form onSubmit={handleSubmit}>
               <Box p={0} m={0} border='none' component='fieldset' disabled={submitting}>
                 <Grid container alignItems='center' rowSpacing={3}>
-                  {fields.map(({ name, label, type }) => (
+                  {fields.map(({ name, label }) => (
                     <Grid key={name} item xs={12}>
-                      <Field name={name} type='number'>
+                      <Field name={name} type='number' parse={Number}>
                         {({ input }) => (
                           // @todo change field to buttons and format value for improving UI/UX
-                          <TextField {...input} label={label} type={type} variant='outlined' fullWidth />
+                          <TextField
+                            {...input}
+                            inputProps={{ ...input, min: 0 }}
+                            label={label}
+                            variant='outlined'
+                            fullWidth
+                          />
                         )}
                       </Field>
                     </Grid>
